@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Intro – Time with Alice</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        height: 100%;
+        overflow: hidden;
+      }
+      .fullscreen-gif {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <img src="midalice-once.gif" class="fullscreen-gif" alt="Intro" />
+    <script>
+      setTimeout(() => {
+        window.location.href = '/index.html'; // 메인 화면으로 이동
+      }, 1800); // 1.5초 후 이동
+    </script>
+  </body>
+</html>

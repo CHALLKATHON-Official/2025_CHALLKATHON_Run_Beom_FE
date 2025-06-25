@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Time with Alice</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      .fullscreen-gif {
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+      }
+      #intro-gif-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: black;
+        z-index: 9999;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="intro-gif-container">
+      <img
+        src="midalice-once.gif"
+        class="fullscreen-gif"
+        alt="Intro Transition"
+      />
+    </div>
+
+    <!-- 로그인 화면 -->
+    <div id="login-container">
+      <h2>로그인</h2>
+      <input type="text" id="login-id" placeholder="아이디" />
+      <input type="password" id="login-pw" placeholder="비밀번호" />
+      <button onclick="login()">로그인</button>
+      <div id="google-btn-container">
+        <div
+          id="g_id_onload"
+          data-client_id="6996944138-69l8kco2ra4ednqonpteqm7c0ghpvqns.apps.googleusercontent.com"
+          data-callback="handleGoogleLogin"
+          data-auto_prompt="false"
+        ></div>
+        <div
+          class="g_id_signin"
+          data-type="standard"
+          data-size="large"
+          data-theme="outline"
+          data-text="sign_in_with"
+          data-shape="rectangular"
+          data-logo_alignment="left"
+        ></div>
+      </div>
+      <p id="login-result"></p>
+      <p><a href="#" onclick="showSignup()">회원가입</a></p>
+    </div>
+
+    <!-- 회원가입 화면 -->
+    <div id="signup-container" style="display: none">
+      <h2>회원가입</h2>
+      <input type="text" id="signup-id" placeholder="아이디" />
+      <input type="password" id="signup-pw" placeholder="비밀번호" />
+      <input type="text" id="signup-nickname" placeholder="닉네임" />
+      <input type="date" id="signup-birth" placeholder="생년월일" />
+      <button onclick="register()">가입하기</button>
+      <p><a href="#" onclick="showLogin()">← 로그인으로 돌아가기</a></p>
+    </div>
+
+    <!-- 로그인 성공 후 영상 화면 -->
+    <div id="video-container" class="fade" style="display: none">
+      <video id="intro-video" autoplay muted>
+        <source src="projectmp4.mp4" type="video/mp4" />
+        브라우저가 video 태그를 지원하지 않습니다.
+      </video>
+    </div>
+
+    <!-- 목표 설정 화면 -->
+    <div id="alice-container" style="display: none">
+      <h1>⏰ Time with Alice</h1>
+      <img id="alice-img" class="goal-alice" src="Alice.png" alt="Alice" />
+
+      <div id="goal-container">
+        <label>하루 목표 시간 설정 (24시간 HH:MM):</label>
+        <select id="goal-hour"></select
+        ><span>:</span
+        ><select id="goal-minute"></select>
+        <button onclick="setGoalTime()">설정</button>
+      </div>
+      <p id="goal-status"></p>
+
+      <button id="toggle-desc">설명 보기</button>
+
+      <div id="modal-overlay" style="display: none">
+        <div id="modal-box">
+          <button id="close-modal">✕</button>
+          <ul>
+            <li>매일 스스로 ‘게임·SNS 사용 시간’을 설정해요.</li>
+            <li>목표 안에서는 앨리스가 활짝 웃어요 😊</li>
+            <li>초과하면 앨리스가 경고 애니메이션을 보여줘요!</li>
+            <li>달성 기록은 랭킹에 올라가 친구들과 경쟁할 수 있어요.</li>
+            <li>습관 통계로 주·월간 성장도 한눈에 확인할 수 있어요.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- 메인 낭비 시간 화면 -->
+    <div id="main-container" style="display: none">
+      <h1>오늘 낭비한 시간: 계산 중...</h1>
+      <div class="alice-container">
+        <img src="alice.png" alt="Alice" class="alice-img" />
+        <p id="wasted-status">계산 중...</p>
+        <button onclick="location.href='ranking.html'" class="ranking-btn">
+          🧠 랭킹 보러가기
+        </button>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      function proceedToVideo() {
+        document.getElementById('login-container').style.display = 'none';
+        document.getElementById('signup-container').style.display = 'none';
+
+        const vc = document.getElementById('video-container');
+        const video = document.getElementById('intro-video');
+        vc.style.display = 'flex';
+        video.play().catch(console.error);
+
+        video.addEventListener('ended', () => {
+          vc.classList.add('fade-out');
+          setTimeout(() => {
+            vc.style.display = 'none';
+            document.getElementById('alice-container').style.display = 'block';
+          }, 1000);
+        });
+      }
+
+      document.getElementById('toggle-desc').addEventListener('click', () => {
+        document.getElementById('modal-overlay').style.display = 'flex';
+      });
+      document.getElementById('close-modal').addEventListener('click', () => {
+        document.getElementById('modal-overlay').style.display = 'none';
+      });
+    </script>
+  </body>
+</html>

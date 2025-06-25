@@ -1,0 +1,181 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f0f8ff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.container {
+  margin-top: 60px;
+}
+
+h1 {
+  font-size: 2.2rem;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+img#alice {
+  width: 200px;
+  transition: transform 0.3s ease;
+}
+
+#status {
+  margin-top: 20px;
+  font-size: 1.1rem;
+  color: #333;
+}
+table {
+  width: 80%;
+  margin: 2rem auto;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+}
+
+th,
+td {
+  padding: 1rem;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+}
+
+tr:hover {
+  background-color: #f3f3f3;
+}
+
+h1 {
+  text-align: center;
+  margin-top: 2rem;
+}
+.ranking-btn {
+  display: block;
+  margin: 2rem auto;
+  padding: 1rem 2rem;
+  background-color: #4c6ef5;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.ranking-btn:hover {
+  background-color: #364fc7;
+}
+#effect-img {
+  transition: opacity 1s ease;
+}
+#effect-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8); /* 어둡게 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 1s ease;
+}
+
+#effect-overlay img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+.alice-img {
+  width: 80%;
+  max-width: 300px;
+  transition: transform 0.3s ease;
+}
+/* ✅ 목표 설정 화면 전용 Alice 이미지 스타일 */
+.goal-alice {
+  width: 40%;
+  max-width: 240px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
+/* 설명 오버레이 스타일 (모달 박스 스타일) */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 90vw;
+  width: 400px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+#modal-box button#close-modal {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+/* 설명 모달 박스 */
+#modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#modal-box {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 16px;
+  max-width: 90vw;
+  width: 400px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  position: relative;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  text-align: left;
+}
+
+#modal-box button#close-modal {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* 목표 설정 화면용 Alice 이미지 */
+.goal-alice {
+  width: 40%;
+  max-width: 240px;
+  height: auto;
+  transition: transform 0.3s ease;
+}
