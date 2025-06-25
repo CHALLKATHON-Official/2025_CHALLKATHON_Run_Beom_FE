@@ -1,7 +1,6 @@
 const userId = 'hoho';
 
-const BASE_URL = 'https://two025-challkathon-run-beom-be.onrender.com';
-fetch(`${BASE_URL}/ranking`)
+fetch('/ranking')
   .then((res) => res.json())
   .then((data) => {
     const tbody = document.querySelector('#ranking-table tbody');
