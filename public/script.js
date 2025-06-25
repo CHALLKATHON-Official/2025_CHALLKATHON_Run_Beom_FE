@@ -1,5 +1,6 @@
 let loginMethod = '';
 let userName = '';
+let userId = ''; // ✅ 추가됨
 
 // 로그인 ↔ 회원가입 화면 전환
 function showSignup() {
@@ -39,6 +40,7 @@ function login() {
   if (savedData && savedData.pw === pw) {
     loginMethod = 'local';
     userName = savedData.nickname;
+    userId = id; // ✅ 추가됨
     proceedToVideo();
   } else if (!savedData) {
     console.log('없는 회원정보입니다');
@@ -68,31 +70,30 @@ function handleGoogleLogin(response) {
   const payload = decodeJwtResponse(response.credential);
   loginMethod = 'google';
   userName = payload.name || payload.given_name || payload.email.split('@')[0];
+  userId = payload.email.split('@')[0]; // 구글 로그인 시 userId 설정
   proceedToVideo();
 }
 
 function proceedToVideo() {
   const loginBox = document.getElementById('login-container');
-  loginBox.classList.add('fade');
-  loginBox.style.opacity = '0';
+  loginBox.style.display = 'none';
+  document.getElementById('signup-container').style.display = 'none';
 
-  setTimeout(() => {
-    loginBox.style.display = 'none';
-    document.getElementById('signup-container').style.display = 'none';
+  const bgVideo = document.getElementById('bg-video');
+  if (bgVideo) bgVideo.style.display = 'none';
 
-    const vc = document.getElementById('video-container');
-    const video = document.getElementById('intro-video');
-    vc.style.display = 'flex';
-    video.play().catch(console.error);
+  const vc = document.getElementById('video-container');
+  const video = document.getElementById('intro-video');
+  vc.style.display = 'flex';
+  video.play().catch(console.error);
 
-    video.addEventListener('ended', () => {
-      vc.classList.add('fade-out');
-      setTimeout(() => {
-        vc.style.display = 'none';
-        document.getElementById('alice-container').style.display = 'block';
-      }, 1000);
-    });
-  }, 2000);
+  video.addEventListener('ended', () => {
+    vc.classList.add('fade-out');
+    setTimeout(() => {
+      vc.style.display = 'none';
+      document.getElementById('alice-container').style.display = 'block';
+    }, 1000);
+  });
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -127,24 +128,6 @@ function setGoalTime() {
     return;
   }
 
-  function sendWastedTime(userId, wastedTime) {
-  fetch(`${BASE_URL}/submit`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ userId, wastedTime })
-  })
-    .then((res) => res.json())
-    .then((data) => {
-      console.log('✅ 서버로 전송 완료:', data);
-    })
-    .catch((err) => {
-      console.error('❌ 전송 실패:', err);
-    });
-}
-
-
   const timeInput = `${h}:${m}`;
   document.getElementById('goal-status').textContent =
     loginMethod === 'google'
@@ -162,11 +145,17 @@ function setGoalTime() {
 }
 
 function loadWastedTime() {
-  const userId = 'hoho';
-  fetch(`${BASE_URL}/status/${userId}`)
+  const fixedUserId = 'hoho'; // 또는 userId로 대체 가능
+  console.log('✅ 현재 조회하려는 userId:', fixedUserId);
+
+  fetch(`/status/${fixedUserId}`)
     .then((res) => res.json())
     .then((data) => {
       const wasted = data.wastedTime || 0;
+      const youtube = data.youtubeTime ?? 'N/A';
+      const instagram = data.instagramTime ?? 'N/A';
+      const total = data.totalTime ?? 'N/A';
+
       const scale = Math.max(0.2, 1 - wasted / 180);
 
       const img = document.querySelector('.alice-img');
@@ -177,7 +166,12 @@ function loadWastedTime() {
 
       const status = document.getElementById('wasted-status');
       if (status) {
-        status.innerText = `오늘 낭비한 시간: ${wasted}분`;
+        status.innerHTML = `
+          오늘 낭비한 시간: ${wasted}분<br>
+          유튜브 사용: ${youtube}분<br>
+          인스타그램 사용: ${instagram}분<br>
+          총 사용 시간: ${total}분
+        `;
       }
     })
     .catch((err) => {
