@@ -87,8 +87,10 @@ function proceedToVideo() {
   vc.style.display = 'flex';
   video.play().catch(console.error);
 
+  // ✅ 영상 끝나면 alice-container로 이동!
   video.addEventListener('ended', () => {
-    vc.classList.add('fade-out');
+    vc.classList.add('fade-out-transition');
+
     setTimeout(() => {
       vc.style.display = 'none';
       document.getElementById('alice-container').style.display = 'block';
@@ -134,51 +136,66 @@ function setGoalTime() {
       ? `${userName} 님의 목표 시간은 ${timeInput}으로 설정되었습니다.`
       : `${userName}님의 목표 시간은 ${timeInput}으로 설정되었습니다.`;
 
-  document.getElementById('alice-container').style.display = 'none';
-  document.getElementById('intro-gif-container').style.display = 'block';
+  // ✅ 목표 설정 화면 페이드 아웃
+  const alice = document.getElementById('alice-container');
+  alice.classList.add('fade-out-transition');
 
   setTimeout(() => {
-    document.getElementById('intro-gif-container').style.display = 'none';
-    document.getElementById('main-container').style.display = 'block';
-    loadWastedTime();
-  }, 2000);
+    alice.style.display = 'none';
+
+    const gif = document.getElementById('intro-gif-container');
+    gif.style.display = 'block';
+
+    // gif는 2.5초 보이고, 이후 main으로 이동
+    setTimeout(() => {
+      gif.classList.add('fade-out-transition');
+
+      setTimeout(() => {
+        gif.style.display = 'none';
+        document.getElementById('main-container').style.display = 'block';
+        loadWastedTime();
+      }, 1000); // 페이드 아웃 지속시간
+    }, 1800); // gif 재생 시간 정확히 1.8초
+  }, 1000); // alice-container 페이드아웃 후
 }
 
 function loadWastedTime() {
-  const fixedUserId = 'hoho'; // 또는 userId로 대체 가능
-  console.log('✅ 현재 조회하려는 userId:', fixedUserId);
+  const fixedUserId = 'hoho';
 
   fetch(`/status/${fixedUserId}`)
     .then((res) => res.json())
     .then((data) => {
       const wasted = data.wastedTime || 0;
-      const youtube = data.youtubeTime ?? 'N/A';
-      const instagram = data.instagramTime ?? 'N/A';
-      const total = data.totalTime ?? 'N/A';
+      const youtube = data.youtubeTime ?? 0;
+      const instagram = data.instagramTime ?? 0;
+      const total = data.totalTime ?? 0;
 
       const scale = Math.max(0.2, 1 - wasted / 180);
-
       const img = document.querySelector('.alice-img');
       if (img) {
         img.style.transform = `scale(${scale})`;
-        img.style.transition = 'transform 0.3s ease';
       }
 
-      const status = document.getElementById('wasted-status');
-      if (status) {
-        status.innerHTML = `
-          오늘 낭비한 시간: ${wasted}분<br>
-          유튜브 사용: ${youtube}분<br>
-          인스타그램 사용: ${instagram}분<br>
-          총 사용 시간: ${total}분
-        `;
-      }
+      document.getElementById(
+        'total-time-heading'
+      ).innerText = `총 사용 시간: ${total}분`;
+
+      const youtubeBar = document.getElementById('youtube-bar');
+      const instagramBar = document.getElementById('instagram-bar');
+      const ytPercent = (youtube / total) * 100;
+      const igPercent = (instagram / total) * 100;
+
+      youtubeBar.style.width = `${ytPercent}%`;
+      instagramBar.style.width = `${igPercent}%`;
+
+      youtubeBar.querySelector(
+        'span'
+      ).textContent = `유튜브 사용시간: ${youtube}분`;
+      instagramBar.querySelector(
+        'span'
+      ).textContent = `인스타 사용시간: ${instagram}분`;
     })
     .catch((err) => {
       console.error('❌ 사용자 데이터 불러오기 실패:', err);
-      const status = document.getElementById('wasted-status');
-      if (status) {
-        status.innerText = '❌ 사용자 데이터를 불러올 수 없습니다.';
-      }
     });
 }
