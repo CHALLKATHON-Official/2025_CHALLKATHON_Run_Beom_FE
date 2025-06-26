@@ -4,6 +4,11 @@ body {
   margin: 0;
   padding: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
 }
 
 .container {
@@ -14,6 +19,8 @@ h1 {
   font-size: 2.2rem;
   margin-bottom: 20px;
   color: #222;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 img#alice {
@@ -26,6 +33,7 @@ img#alice {
   font-size: 1.1rem;
   color: #333;
 }
+
 table {
   width: 80%;
   margin: 2rem auto;
@@ -44,36 +52,35 @@ tr:hover {
   background-color: #f3f3f3;
 }
 
-h1 {
-  text-align: center;
-  margin-top: 2rem;
-}
 .ranking-btn {
-  display: block;
-  margin: 2rem auto;
-  padding: 1rem 2rem;
+  padding: 0.9rem 1.8rem;
+  font-size: 1.05rem;
   background-color: #4c6ef5;
   color: white;
-  font-size: 1.1rem;
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
 }
 
 .ranking-btn:hover {
   background-color: #364fc7;
+  transform: scale(1.05);
 }
+
 #effect-img {
   transition: opacity 1s ease;
 }
+
 #effect-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8); /* 어둡게 */
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,55 +94,20 @@ h1 {
   height: 100vh;
   object-fit: cover;
 }
+
 .alice-img {
   width: 80%;
   max-width: 300px;
   transition: transform 0.3s ease;
 }
-/* ✅ 목표 설정 화면 전용 Alice 이미지 스타일 */
+
 .goal-alice {
   width: 40%;
   max-width: 240px;
   height: auto;
   transition: transform 0.3s ease;
 }
-/* 설명 오버레이 스타일 (모달 박스 스타일) */
-#modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
-#modal-box {
-  background: #fff;
-  padding: 2rem;
-  border-radius: 16px;
-  max-width: 90vw;
-  width: 400px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  position: relative;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  text-align: left;
-}
-
-#modal-box button#close-modal {
-  position: absolute;
-  top: 10px;
-  right: 14px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-/* 설명 모달 박스 */
 #modal-overlay {
   position: fixed;
   top: 0;
@@ -172,10 +144,328 @@ h1 {
   cursor: pointer;
 }
 
-/* 목표 설정 화면용 Alice 이미지 */
-.goal-alice {
-  width: 40%;
-  max-width: 240px;
-  height: auto;
-  transition: transform 0.3s ease;
+#bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+
+#login-container,
+#signup-container {
+  background: rgba(255, 255, 255, 0.68);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+  z-index: 1;
+  position: relative;
+  margin: 100px auto;
+}
+
+#login-container input,
+#signup-container input {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+#login-container button,
+#signup-container button {
+  width: 100%;
+  padding: 12px;
+  background-color: #4c6ef5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#login-container button:hover,
+#signup-container button:hover {
+  background-color: #364fc7;
+}
+
+#login-container a,
+#signup-container a {
+  display: block;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: #4c6ef5;
+  font-weight: bold;
+}
+#video-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+#intro-video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+}
+#main-container {
+  min-height: 100vh;
+  width: 100vw;
+  padding-top: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#main-container h1 {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 1rem 2rem;
+  border-radius: 20px;
+  font-size: 2.2rem;
+  color: #2c2c2c;
+  backdrop-filter: blur(4px);
+  margin-bottom: 2rem;
+  font-family: 'Georgia', serif;
+  max-width: 90vw;
+  text-align: center;
+}
+
+#wasted-status {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(4px);
+  padding: 0.6rem 1.4rem;
+  border-radius: 16px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #2c2c2c;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  text-align: center;
+}
+
+.alice-img {
+  width: 160px;
+  margin-bottom: 1rem;
+  animation: float 2s ease-in-out infinite;
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+.alice-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#main-bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+}
+.bar-container {
+  display: flex;
+  height: 48px;
+  width: 90%;
+  max-width: 500px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px);
+  border-radius: 24px;
+  overflow: hidden;
+  margin: 1rem auto 2rem auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  position: relative;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  height: 100%;
+  font-size: 0.95rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  transition: width 0.6s ease-in-out;
+}
+
+.youtube-bar {
+  background: linear-gradient(to right, #ff4d4d, #ff0000);
+  border-top-left-radius: 24px;
+  border-bottom-left-radius: 24px;
+}
+
+.instagram-bar {
+  background: linear-gradient(to right, #e1306c, #833ab4);
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+
+.bar span {
+  padding: 0 10px;
+  font-size: 0.92rem;
+}
+#total-time-heading {
+  font-family: 'Poor Story', cursive !important;
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(4px);
+  font-size: 1.5rem;
+  color: #2c2c2c;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
+}
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 18px rgba(255, 255, 255, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+  }
+}
+.bar-container {
+  animation: glow 2s ease-in-out infinite;
+}
+.fade-out-transition {
+  animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+#alice-container.fade-out-transition {
+  animation: fadeOut 1s ease forwards;
+}
+#ranking-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: url('ranking.gif') no-repeat center center;
+  background-size: cover;
+  z-index: -1;
+}
+/* 랭킹 테이블 꾸미기 */
+#ranking-table {
+  width: 90%;
+  max-width: 720px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  margin-top: 2rem;
+  font-family: 'Segoe UI', sans-serif;
+  animation: fadeIn 1.5s ease;
+}
+
+#ranking-table th {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 1.2rem;
+  text-shadow: 1px 1px 2px #000;
+}
+
+#ranking-table td {
+  font-size: 1.05rem;
+  color: #fff;
+  padding: 1rem;
+  text-shadow: 0.5px 0.5px 1px #000;
+}
+
+#ranking-table tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+#ranking-table tr:hover {
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0.15),
+    rgba(200, 200, 255, 0.15)
+  );
+  transition: background 0.3s ease;
+}
+
+/* 제목 글씨 강화 */
+h1 {
+  font-family: 'Georgia', serif;
+  font-size: 2.4rem;
+  color: #fff;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 20px;
+  margin-top: 3rem;
+  backdrop-filter: blur(8px);
+  animation: fadeIn 1s ease;
+}
+
+/* 돌아가기 링크 스타일링 */
+a {
+  color: #fff;
+  margin-top: 2rem;
+  display: inline-block;
+  font-weight: bold;
+  font-size: 1.05rem;
+  text-decoration: none;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  background: rgba(0, 0, 0, 0.5);
+  transform: scale(1.05);
+}
+
+/* 테이블 등장 효과 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
