@@ -1,5 +1,5 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Nunito', 'Apple SD Gothic Neo', sans-serif;
   background-color: #f0f8ff;
   margin: 0;
   padding: 0;
@@ -468,4 +468,84 @@ a:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+#countdown-timer {
+  font-size: 2.4rem;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
+}
+
+#alice-bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -1;
+  display: none; /* 처음엔 숨김 */
+}
+.header {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: white;
+  padding: 0.8em 1.5em;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 1.5em;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+.timer {
+  font-family: 'Courier New', monospace;
+  font-size: 2rem;
+  color: #ffc107;
+  text-shadow: 0 0 5px black;
+}
+.goal-box {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 1rem 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #222;
+  max-width: 90vw;
+  margin-top: 2rem;
+}
+
+.goal-box small {
+  font-size: 0.9rem;
+  color: #555;
+}
+.button {
+  background: #ff69b4;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5em 1.2em;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease-in-out;
+}
+.button:hover {
+  background: #ff85c1;
+  transform: scale(1.05);
+}
+#status {
+  margin-top: 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  text-shadow: 1px 1px 5px black;
+}
+.goal-wrapper {
+  background: rgba(0, 0, 0, 0.4); /* 검정 반투명 */
+  padding: 30px;
+  border-radius: 20px;
+  color: white;
+  text-align: center;
+  width: fit-content;
+  margin: 0 auto;
 }
