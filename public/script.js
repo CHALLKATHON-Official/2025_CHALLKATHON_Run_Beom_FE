@@ -93,7 +93,12 @@ function proceedToVideo() {
 
     setTimeout(() => {
       vc.style.display = 'none';
+
+      // ✅ 목표설정 화면 보여주기
       document.getElementById('alice-container').style.display = 'block';
+
+      // ✅ (추가) 목표설정 전용 배경 비디오 보여주기
+      document.getElementById('alice-bg-video').style.display = 'block';
     }, 1000);
   });
 }
@@ -125,6 +130,12 @@ document.getElementById('close-modal').addEventListener('click', () => {
 function setGoalTime() {
   const h = document.getElementById('goal-hour').value;
   const m = document.getElementById('goal-minute').value;
+  function launchShortcutWithMinutes(minutes) {
+    const encodedName = encodeURIComponent('Youtube 타이머 (다시한번더!)');
+    const url = `shortcuts://run-shortcut?name=${encodedName}&input=예,${minutes}`;
+    window.location.href = url;
+  }
+
   if (h === '' || m === '') {
     alert('목표 시간을 선택해주세요.');
     return;
@@ -136,27 +147,51 @@ function setGoalTime() {
       ? `${userName} 님의 목표 시간은 ${timeInput}으로 설정되었습니다.`
       : `${userName}님의 목표 시간은 ${timeInput}으로 설정되었습니다.`;
 
-  // ✅ 목표 설정 화면 페이드 아웃
-  const alice = document.getElementById('alice-container');
-  alice.classList.add('fade-out-transition');
+  // 설정된 목표시간(분) 계산
+  const totalMinutes = parseInt(h) * 60 + parseInt(m);
+  startTimer(totalMinutes); // ✅ 알림 타이머 시작
+  let remainingSeconds = totalMinutes * 60;
 
-  setTimeout(() => {
-    alice.style.display = 'none';
+  const countdownElement = document.getElementById('countdown-timer');
 
-    const gif = document.getElementById('intro-gif-container');
-    gif.style.display = 'block';
+  updateCountdown(countdownElement, remainingSeconds);
 
-    // gif는 2.5초 보이고, 이후 main으로 이동
-    setTimeout(() => {
-      gif.classList.add('fade-out-transition');
+  const timerInterval = setInterval(() => {
+    remainingSeconds--;
+
+    updateCountdown(countdownElement, remainingSeconds);
+
+    if (remainingSeconds <= 0) {
+      clearInterval(timerInterval);
+
+      // 타이머 종료 시 GIF 화면으로 전환
+      const alice = document.getElementById('alice-container');
+      alice.classList.add('fade-out-transition');
 
       setTimeout(() => {
-        gif.style.display = 'none';
-        document.getElementById('main-container').style.display = 'block';
-        loadWastedTime();
-      }, 1000); // 페이드 아웃 지속시간
-    }, 1800); // gif 재생 시간 정확히 1.8초
-  }, 1000); // alice-container 페이드아웃 후
+        alice.style.display = 'none';
+        const gif = document.getElementById('intro-gif-container');
+        gif.style.display = 'block';
+
+        setTimeout(() => {
+          gif.classList.add('fade-out-transition');
+          setTimeout(() => {
+            gif.style.display = 'none';
+            document.getElementById('main-container').style.display = 'block';
+            loadWastedTime();
+          }, 1000);
+        }, 1800);
+      }, 1000);
+    }
+  }, 1000);
+}
+
+// 카운트다운 표시 업데이트 함수
+function updateCountdown(element, seconds) {
+  const hrs = String(Math.floor(seconds / 3600)).padStart(2, '0');
+  const mins = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
+  const secs = String(seconds % 60).padStart(2, '0');
+  element.textContent = `${hrs}:${mins}:${secs}`;
 }
 
 function loadWastedTime() {
@@ -198,4 +233,23 @@ function loadWastedTime() {
     .catch((err) => {
       console.error('❌ 사용자 데이터 불러오기 실패:', err);
     });
+}
+
+function startTimer(minutes) {
+  const ms = minutes * 60 * 1000;
+
+  setTimeout(() => {
+    const audio = new Audio('alarm_bell.mp3');
+    audio
+      .play()
+      .then(() => {
+        // 🔊 소리 재생이 실제 시작된 후 alert
+        alert('⏰ 타이머가 종료되었습니다! 앨리스가 울고 있어요 😭');
+      })
+      .catch((err) => {
+        console.warn('🎧 소리 재생 실패:', err);
+        // 실패 시에도 alert은 띄우기
+        alert('⏰ 타이머가 종료되었습니다! (알람 소리 실패)');
+      });
+  }, ms);
 }
