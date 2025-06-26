@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <title>Time with Alice</title>
     <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
       html,
@@ -213,10 +217,16 @@
         <source src="background2.mp4" type="video/mp4" />
       </video>
 
-      <h1>Time Fragments from Alice's Mind</h1>
+      <h1 id="total-time-heading">총 사용 시간: 계산 중...</h1>
       <div class="alice-container">
         <img src="alice.png" alt="Alice" class="alice-img" />
-        <p id="wasted-status">계산 중...</p>
+
+        <!-- 막대그래프 컨테이너 추가 -->
+        <div id="bar-chart" class="bar-container">
+          <div id="youtube-bar" class="bar youtube-bar"><span></span></div>
+          <div id="instagram-bar" class="bar instagram-bar"><span></span></div>
+        </div>
+
         <button onclick="location.href='ranking.html'" class="ranking-btn">
           🧠 랭킹 보러가기
         </button>
