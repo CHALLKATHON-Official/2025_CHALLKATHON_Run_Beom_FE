@@ -183,16 +183,26 @@
 
     <!-- 목표 설정 화면 -->
     <div id="alice-container" style="display: none">
+      <video autoplay muted loop playsinline id="alice-bg-video">
+        <source src="background3.mp4" type="video/mp4" />
+      </video>
+
+      <div
+        id="countdown-timer"
+        style="font-size: 2rem; margin-top: 1rem; font-weight: bold"
+      ></div>
       <h1>⏰ Time with Alice</h1>
       <img id="alice-img" class="goal-alice" src="Alice.png" alt="Alice" />
-
-      <div id="goal-container">
-        <label>하루 목표 시간 설정 (24시간 HH:MM):</label>
-        <select id="goal-hour"></select>
-        <span>:</span>
-        <select id="goal-minute"></select>
-        <button onclick="setGoalTime()">설정</button>
+      <div class="goal-wrapper">
+        <div id="goal-container">
+          <label>하루 목표 시간 설정 (24시간 HH:MM):</label>
+          <select id="goal-hour"></select>
+          <span>:</span>
+          <select id="goal-minute"></select>
+          <button onclick="setGoalTime()">설정</button>
+        </div>
       </div>
+
       <p id="goal-status"></p>
 
       <button id="toggle-desc">설명 보기</button>
